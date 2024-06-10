@@ -59,3 +59,28 @@ footer button {
 footer button:hover {
   background: hsl(235, 90%, 58%);
 }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+
+.cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+.cart-quantity {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 14px;
+}

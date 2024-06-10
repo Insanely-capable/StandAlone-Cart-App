@@ -7,9 +7,14 @@ const calculateTotal = (cart) => {
   return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
 };
 
+const calculateTotalQuantity = (cart) => {
+  return cart.reduce((total, item) => total + item.quantity, 0);
+};
+
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   useEffect(() => {
     axios.get('https://www.course-api.com/react-useReducer-cart-project')
@@ -17,6 +22,7 @@ export const CartProvider = ({ children }) => {
         const initialCart = response.data.map(item => ({ ...item, quantity: 1 }));
         setCart(initialCart);
         setTotal(calculateTotal(initialCart));
+        setTotalQuantity(calculateTotalQuantity(initialCart));
       })
       .catch(error => console.error(error));
   }, []);
@@ -25,6 +31,7 @@ export const CartProvider = ({ children }) => {
     const updatedCart = cart.filter(item => item.id !== id);
     setCart(updatedCart);
     setTotal(calculateTotal(updatedCart));
+    setTotalQuantity(calculateTotalQuantity(updatedCart));
   };
 
   const changeQuantity = (id, quantity) => {
@@ -33,15 +40,17 @@ export const CartProvider = ({ children }) => {
     ).filter(item => item.quantity > 0);
     setCart(updatedCart);
     setTotal(calculateTotal(updatedCart));
+    setTotalQuantity(calculateTotalQuantity(updatedCart));
   };
 
   const clearCart = () => {
     setCart([]);
     setTotal(0);
+    setTotalQuantity(0);
   };
 
   return (
-    <CartContext.Provider value={{ cart, total, removeItem, changeQuantity, clearCart }}>
+    <CartContext.Provider value={{ cart, total, totalQuantity, removeItem, changeQuantity, clearCart }}>
       {children}
     </CartContext.Provider>
   );
